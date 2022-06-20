@@ -1,7 +1,6 @@
 import adult from '../adult';
 import main from '../main';
 import localhost from '../main/localhost';
-import { requiredScripts } from '../core/externals';
 
 const sites = [...main, ...adult, localhost];
 
@@ -14,6 +13,5 @@ export default {
   license: 'MIT',
   grant: ['GM_getValue', 'GM_setValue', 'GM_listValues', 'GM_deleteValue', 'GM_xmlhttpRequest'],
   connect: '*',
-  require: requiredScripts,
   include: sites.map((s) => s.url),
 } as Partial<Tampermonkey.ScriptMetadata>;

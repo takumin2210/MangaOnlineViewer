@@ -1,5 +1,4 @@
 import adult from '../adult';
-import { requiredScripts } from '../core/externals.js';
 import main from '../main';
 import { ISite } from '../types';
 
@@ -26,12 +25,11 @@ function siteListEntry(site: ISite) {
 }
 
 const sortSites = (s: ISite[]) =>
-  [...s].sort((a, b) => `${a.language}`.localeCompare(b.language.toString()));
+  [...s].sort((a, b) => a.language.toString().localeCompare(b.language.toString()));
 const sitesList = (s: ISite[]) => sortSites(s).map(siteListEntry).join('\n');
 
 const mangaSites = sitesList(main.filter((s) => s.category === 'manga'));
 const comicSites = sitesList(main.filter((s) => s.category === 'comic'));
 const hentaiSites = sitesList(adult);
-const bookmarklet = `${requiredScripts.join('", "')}`;
 
-export { mangaSites, comicSites, hentaiSites, languages, bookmarklet };
+export { mangaSites, comicSites, hentaiSites, languages };

@@ -1,5 +1,4 @@
 import sites from '../main';
-import { requiredScripts } from '../core/externals';
 
 export default {
   name: 'Manga OnlineViewer',
@@ -15,7 +14,6 @@ export default {
   license: 'MIT',
   grant: ['GM_getValue', 'GM_setValue', 'GM_listValues', 'GM_deleteValue', 'GM_xmlhttpRequest'],
   connect: '*',
-  require: requiredScripts,
-  include: sites.map((s) => s.url),
+  include: sites.map((s) => s.url.toString()),
   exclude: [/https?:\/\/(www.)?tsumino.com\/.+/, /https?:\/\/(www.)?pururin.io\/.+/],
 } as Partial<Tampermonkey.ScriptMetadata>;

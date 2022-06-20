@@ -17,38 +17,13 @@ export interface ITheme {
 }
 
 export interface ISettings {
-  theme:
-    | 'Dark'
-    | 'Light'
-    | 'Clear'
-    | 'Dark_Blue'
-    | 'Tango_Blue'
-    | 'Lime'
-    | 'Plum'
-    | 'Light_Plum'
-    | 'Earthy'
-    | 'Cool_Blues'
-    | 'Custom_Dark'
-    | 'Custom_Light'
-    | 'Full_Custom';
-  customTheme: string;
-  customThemeBody: string;
-  customThemeText: string;
-  customThemeLines: string;
-  customThemePanel: string;
-  customThemeButton: string;
-  viewMode: 'WebComic' | 'FluidLTR' | 'FluidRTL' | ''; // inherit = WebComic
+  configVersion: number;
+  downloadZip: boolean;
+  zoomStep: number;
+  viewMode: 'inherit' | 'ltr' | 'rtl'; // inherit = WebComic
   bookmarks: IBookmark[];
   loadMode: 'wait' | 'always' | 'never';
-  fitWidthIfOversize?: boolean;
-  showThumbnails?: boolean;
-  downloadZip?: boolean;
   throttlePageLoad: number;
-  zoom: number;
-  zoomStep: number;
-  minZoom: number;
-  lazyLoadImages: boolean;
-  lazyStart: number;
-  hidePageControls: boolean;
-  mouseOverMenu: boolean;
+  theme: ITheme;
+  widthScale: number;
 }

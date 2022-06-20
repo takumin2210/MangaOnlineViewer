@@ -19,6 +19,7 @@ import eslint from '@rbnlffl/rollup-plugin-eslint';
 import cleanup from 'rollup-plugin-cleanup';
 import externalGlobals from 'rollup-plugin-external-globals';
 import bundleSize from 'rollup-plugin-bundle-size';
+import react from '@vitejs/plugin-react';
 
 let minify = false;
 let build = 'esbuild'; // 'esbuild' | 'rollup' | 'vite'
@@ -50,6 +51,8 @@ const globals = {
   nprogress: 'NProgress',
   imagesloaded: 'imagesLoaded',
   'file-saver': 'FileSaver',
+  // react: 'React',
+  // 'react-dom': 'ReactDOM',
 };
 
 function buildUserscript(script) {
@@ -57,6 +60,7 @@ function buildUserscript(script) {
     const metadata = fs.readFileSync(`./dist/${script.meta}`, 'utf8');
     if (build === 'vite') {
       return vite({
+        plugins: [react()],
         mode: 'development',
         configFile: false,
         esbuild: {
@@ -68,7 +72,7 @@ function buildUserscript(script) {
           emptyOutDir: false,
           rollupOptions: {
             input: `src/${script.entry}`,
-            plugins: [externalGlobals(globals)],
+            // plugins: [externalGlobals(globals)],
             output: {
               banner: metadata,
               format: 'iife',
@@ -76,13 +80,14 @@ function buildUserscript(script) {
               sourcemap: sourcemap ? 'inline' : false,
             },
           },
+          chunkSizeWarningLimit: 1000,
         },
       });
     } else if (build === 'rollup') {
       return rollup({
         input: `src/${script.entry}`,
         plugins: [
-          externalGlobals(globals),
+          // externalGlobals(globals),
           nodeResolve({
             preferBuiltins: false,
             extensions: ['.js', '.ts', '.tsx'],
@@ -127,7 +132,11 @@ function buildUserscript(script) {
           minify: minify,
           keepNames: true,
           legalComments: 'none',
-          plugins: [minifyTemplates(), writeFiles(), globalExternals(globals)],
+          plugins: [
+            minifyTemplates(),
+            writeFiles(),
+            // globalExternals(globals)
+          ],
           write: !minify,
           sourcemap: sourcemap ? 'inline' : false,
         })
@@ -216,7 +225,7 @@ gulp.task(
 gulp.task(
   'release',
   gulp.series(
-    prep('rollup'),
+    prep('vite'),
     clean,
     gulp.parallel(writeMetadata(scripts.main), writeMetadata(scripts.adult), readme),
     gulp.parallel(buildUserscript(scripts.main), buildUserscript(scripts.adult)),

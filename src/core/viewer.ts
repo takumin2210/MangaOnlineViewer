@@ -1,10 +1,9 @@
 import Swal, { SweetAlertOptions } from 'sweetalert2';
-import { getBrowser, getEngine, getInfoGM, logScript } from '../utils/tampermonkey';
+import { getBrowser, getEngine, getInfoGM, getSettings, logScript } from '../utils/tampermonkey';
 import { IManga, ISite } from '../types';
 import { isNothing } from '../utils/checks';
 import formatPage from './format';
-import { settings } from './settings';
-import sweetalertStyle from './components/sweetalertStyle.js';
+import { sweetalertStyle } from './styles';
 
 async function lateStart(site: ISite, begin = 1) {
   const manga = await site.run();
@@ -41,7 +40,6 @@ function createLateStartButton(site: ISite, beginning: number) {
     lateStart(site, beginning);
   };
   document.body.appendChild(button);
-  // language=CSS
   const css = `
 #StartMOV {
     font-size: 20px;
@@ -81,6 +79,7 @@ function createLateStartButton(site: ISite, beginning: number) {
 // Organize the site adding place-holders for the manga pages
 function preparePage(site: ISite, manga: IManga, begin = 0) {
   logScript(`Found Pages: ${manga.pages}`);
+  const settings = getSettings();
   if (manga.pages > 0) {
     let beginning = begin;
     if (beginning === 0) {

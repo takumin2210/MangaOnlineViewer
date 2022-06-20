@@ -15,24 +15,16 @@ export interface IMangaBase {
 
 export interface IMangaPages extends IMangaBase {
   listPages: string[];
-  img: string;
-  lazyAttr?: string;
+  imageSelector: string;
+  imageAttribute?: string;
 }
 
 export interface IMangaImages extends IMangaBase {
   listImages: string[];
 }
 
-interface IBruteForceObj {
-  begin: number;
-  addImg: (index: number, imageSrc: string) => void;
-  loadImages: (list: string[]) => any;
-  loadPages: (list: string[], img: string, lazyAttr: string | undefined) => any;
-  wait: number;
-}
-
 export interface IMangaForce extends IMangaBase {
-  bruteForce(obj: IBruteForceObj): void;
+  bruteForce(index: number): string;
 }
 
 export type IManga = IMangaPages | IMangaImages | IMangaForce;
