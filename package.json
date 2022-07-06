@@ -2,6 +2,11 @@
     "name": "mangaonlineviewer",
     "description": "Userscript that helps to read Manga faster by loading all the pages at once",
     "version": "30.0.0",
+    "scripts": {
+        "start": "vite",
+        "build": "gulp build",
+        "release": "gulp release"
+    },
     "author": "TagoDR",
     "license": "MIT",
     "type": "module",
@@ -19,12 +24,6 @@
     ],
     "bugs": "https://github.com/TagoDR/MangaOnlineViewer/issues",
     "homepage": "https://github.com/TagoDR/MangaOnlineViewer#readme",
-    "scripts": {
-        "start": "vite",
-        "build": "gulp build",
-        "release": "gulp release",
-        "serve": "vite preview"
-    },
     "devDependencies": {
         "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
         "@rbnlffl/rollup-plugin-eslint": "^3.0.0",

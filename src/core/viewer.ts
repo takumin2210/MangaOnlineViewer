@@ -3,7 +3,7 @@ import { getBrowser, getEngine, getInfoGM, getSettings, logScript } from '../uti
 import { IManga, ISite } from '../types';
 import { isNothing } from '../utils/checks';
 import formatPage from './format';
-import { sweetalertStyle } from './styles';
+import sweetalertStyle from './components/sweetalertStyle.js';
 
 async function lateStart(site: ISite, begin = 1) {
   const manga = await site.run();
