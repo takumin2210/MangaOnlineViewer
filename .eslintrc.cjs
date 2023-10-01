@@ -5,7 +5,14 @@ module.exports = {
     es2021: true,
     greasemonkey: true,
   },
-  extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier', 'plugin:prettier/recommended'],
+  extends: [
+    'airbnb-base',
+    'airbnb-typescript/base',
+    'plugin:wc/recommended',
+    'plugin:lit/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
+  ],
   overrides: [
     {
       env: {
@@ -30,6 +37,16 @@ module.exports = {
       'error',
       {
         props: false,
+      },
+    ],
+    'import/extensions': [
+      'warn',
+      'ignorePackages',
+      {
+        js: 'off',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
       },
     ],
   },
