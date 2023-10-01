@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { get, writable } from 'svelte/store';
+import { addMessages, init } from 'svelte-i18n';
 import {
   getListGM,
   getSettings,
@@ -55,29 +57,30 @@ export const defaultSettings: ISettings = {
 };
 
 // Configuration
-let settings: ISettings = _.defaultsDeep(getSettings(defaultSettings), defaultSettings);
-
+const settings = writable<ISettings>(_.defaultsDeep(getSettings(defaultSettings), defaultSettings));
+locales.forEach((locale) => addMessages(locale.ID, locale));
+init({
+  fallbackLocale: 'en_US',
+  initialLocale: get(settings).locale,
+});
 // Force Settings for mobile
 if (isMobile()) {
-  settings.lazyLoadImages = true;
-  settings.fitWidthIfOversize = true;
-  settings.showThumbnails = false;
-  settings.viewMode = 'WebComic';
-  settings.header = 'click';
-}
-
-type SettingsKey = keyof typeof settings;
-
-export function useSettingsValue(key: SettingsKey) {
-  return settings[key];
+  settings.update((s) => ({
+    ...s,
+    lazyLoadImages: true,
+    fitWidthIfOversize: true,
+    showThumbnails: false,
+    viewMode: 'WebComic',
+    header: 'click',
+  }));
 }
 
 export function getUserSettings() {
-  return settings;
+  return get(settings);
 }
 
 export function getLocaleString(name: string): string {
-  const locale = locales.find((l) => l.ID === settings.locale);
+  const locale = locales.find((l) => l.ID === get(settings).locale);
   if (locale?.[name]) {
     return locale[name];
   }
@@ -94,8 +97,8 @@ export function getAllLocaleStrings(name: string): string {
 
 export function updateSettings(newValue: Partial<ISettings>) {
   logScript(JSON.stringify(newValue));
-  settings = { ...settings, ...newValue };
-  setSettings(diffObj(settings, defaultSettings));
+  settings.update((_settings: ISettings) => ({ ..._settings, ...newValue }));
+  setSettings(diffObj(get(settings), defaultSettings));
 }
 
 export function resetSettings() {
@@ -106,15 +109,15 @@ export function resetSettings() {
 }
 
 export function isBookmarked(url: string = window.location.href): number | undefined {
-  return settings.bookmarks.find((el) => el.url === url)?.page;
+  return get(settings).bookmarks.find((el) => el.url === url)?.page;
 }
 
 // Clear old Bookmarks
 const bookmarkTimeLimit = 1000 * 60 * 60 * 24 * 30 * 12; // Year
-const refreshedBookmark = settings.bookmarks.filter(
+const refreshedBookmark = get(settings).bookmarks.filter(
   (el) => Date.now() - new Date(el.date).valueOf() < bookmarkTimeLimit,
 );
-if (settings.bookmarks.length !== refreshedBookmark.length) {
+if (get(settings).bookmarks.length !== refreshedBookmark.length) {
   updateSettings({ bookmarks: refreshedBookmark });
 }
 
@@ -123,7 +126,8 @@ export function clearBookmark(url: string = window.location.href) {
   if (!isNothing(isBookmarked())) {
     logScript(`Bookmark Removed ${window.location.href}`);
     updateSettings({
-      bookmarks: settings.bookmarks.filter((el) => el.url !== url),
+      bookmarks: get(settings).bookmarks.filter((el) => el.url !== url),
     });
   }
 }
+export default settings;
