@@ -5,7 +5,13 @@ module.exports = {
     es2021: true,
     greasemonkey: true,
   },
-  extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier', 'plugin:prettier/recommended'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:prettier/recommended',
+  ],
   overrides: [
     {
       env: {
@@ -23,7 +29,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['import', '@typescript-eslint'],
+  plugins: ['import', '@typescript-eslint', 'react-refresh'],
   rules: {
     'no-console': 'warn',
     'no-param-reassign': [
@@ -32,6 +38,8 @@ module.exports = {
         props: false,
       },
     ],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-uses-react': 'off',
   },
   ignorePatterns: ['node_modules', 'dist'],
 };

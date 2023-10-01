@@ -1,5 +1,5 @@
 import localhost from './main/localhost';
-import display from './ui';
+import display from './react';
 //import { loadMangaFromZip } from './core/upload';
 
 // document.querySelector('#file')?.addEventListener('change', (evt) => {

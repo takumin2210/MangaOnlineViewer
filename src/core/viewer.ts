@@ -1,7 +1,7 @@
 import type { IManga } from '../types';
 import { logScript } from '../utils/tampermonkey';
 import { clearBookmark } from './settings';
-import display from '../ui';
+import display from '../react';
 import { cleanUpElement } from '../utils/cleanup';
 
 export default async function viewer(manga: IManga) {

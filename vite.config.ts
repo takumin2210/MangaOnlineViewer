@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import userscript, { type Metadata } from 'userscript-metadata-generator';
 import externalGlobals from 'rollup-plugin-external-globals';
 import fs from 'fs';
@@ -45,6 +46,13 @@ const globals = {
   lodash: '_',
   'hotkeys-js': 'hotkeys',
   'range-slider-input': 'rangeSlider',
+  react: 'react',
+  'react-dom': 'react-dom',
+  recoil: 'recoil',
+  'styled-components': 'styled-components',
+  '@mantine/core': 'mantine/core',
+  '@mantine/hooks': 'mantine/hooks',
+  '@tabler/icons-react': 'tabler/icons-react',
 };
 
 function generateReadme() {
@@ -72,6 +80,7 @@ export default defineConfig(({ mode }) => {
   const metadata = generateMetadata(scripts[target]);
   return {
     mode: target === 'dev' ? 'development' : 'production',
+    plugins: [react()],
     build: {
       target: 'esnext',
       minify: false,
